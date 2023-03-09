@@ -20,7 +20,7 @@ public interface AccountMapper {
   @Mapping( source = "customerId", target = "customer.id")
   Account accountDTOToAccount(AccountDTO accountDTO);
 
-  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "accountNumber", ignore = true)
   void updateAccountFromAccountDTO(AccountDTO accountDTO, @MappingTarget Account account);
 
 }

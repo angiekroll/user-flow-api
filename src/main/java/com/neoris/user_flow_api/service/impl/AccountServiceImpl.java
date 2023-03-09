@@ -1,5 +1,6 @@
 package com.neoris.user_flow_api.service.impl;
 
+import com.neoris.user_flow_api.constans.AccountType;
 import com.neoris.user_flow_api.constans.NotificationCode;
 import com.neoris.user_flow_api.domain.Account;
 import com.neoris.user_flow_api.domain.Customer;
@@ -9,6 +10,7 @@ import com.neoris.user_flow_api.mapper.AccountMapper;
 import com.neoris.user_flow_api.repository.AccountRepository;
 import com.neoris.user_flow_api.repository.CustomerRepository;
 import com.neoris.user_flow_api.service.AccountService;
+import com.neoris.user_flow_api.service.CustomerService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,24 +32,30 @@ public class AccountServiceImpl implements AccountService {
 
   @Override
   @Transactional
-  public List<AccountDTO> createAccount(List<AccountDTO> accountsDTO) throws UserFlowException {
-    try {
-      List<Account> accounts = accountsDTO.stream()
-          .map(AccountMapper.INSTANCE::accountDTOToAccount)
-          .toList();
+  public List<AccountDTO> createAccount(List<AccountDTO> accountDTOs) throws UserFlowException {
 
-      for (Account account : accounts) {
-        Customer customer = customerRepository.findById(account.getCustomer().getId()).orElse(null);
+    if (accountDTOs.stream().anyMatch(
+        accountDTO -> !accountDTO.getAccountType().equals(AccountType.CORRIENTE.name()) && !accountDTO.getAccountType()
+            .equals(AccountType.AHORRO.name()))) {
+      throw new UserFlowException(NotificationCode.INVALID_ACCOUNT_TYPE);
+    }
 
-        if (customer != null) {
-          customer.setId(account.getCustomer().getId());
-          account.setCustomer(customer);
-        } else {
-          throw new UserFlowException(NotificationCode.CUSTOMER_NOT_FOUND);
-        }
+    List<Account> accounts = accountDTOs.stream()
+        .map(AccountMapper.INSTANCE::accountDTOToAccount)
+        .toList();
 
+    for (Account account : accounts) {
+      Customer customer = customerRepository.findById(account.getCustomer().getId()).orElse(null);
+
+      if (customer != null) {
+        customer.setId(account.getCustomer().getId());
+        account.setCustomer(customer);
+      } else {
+        throw new UserFlowException(NotificationCode.CUSTOMER_NOT_FOUND);
       }
 
+    }
+    try {
       log.debug("Saving accounts");
       List<Account> savedAccounts = accountRepository.saveAll(accounts);
       log.info("{} Accounts created", savedAccounts.size());
@@ -64,6 +72,7 @@ public class AccountServiceImpl implements AccountService {
   @Override
   @Transactional
   public AccountDTO updateAccount(AccountDTO accountDTO, Long id) throws UserFlowException {
+    validateAccountType(accountDTO);
     Account accountFound = findById(id);
     AccountMapper.INSTANCE.updateAccountFromAccountDTO(accountDTO, accountFound);
     try {
@@ -97,4 +106,13 @@ public class AccountServiceImpl implements AccountService {
     accountRepository.delete(account);
     log.info("{} Account deleted", id);
   }
+
+  private void validateAccountType(AccountDTO accountDTO) throws UserFlowException {
+    String accountType = accountDTO.getAccountType();
+    if (!accountType.equalsIgnoreCase(AccountType.CORRIENTE.name())
+        && !accountType.equalsIgnoreCase(AccountType.AHORRO.name())) {
+      throw new UserFlowException(NotificationCode.INVALID_ACCOUNT_TYPE);
+    }
+  }
+
 }

@@ -73,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
     log.info("{} Customer deleted", id);
   }
 
-  public Customer findById(Long id) throws UserFlowException {
+  private Customer findById(Long id) throws UserFlowException {
     Customer customer = customerRepository.findById(id).orElse(null);
 
     if (customer == null) {
