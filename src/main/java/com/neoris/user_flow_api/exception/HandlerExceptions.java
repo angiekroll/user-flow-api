@@ -1,5 +1,6 @@
 package com.neoris.user_flow_api.exception;
 
+import com.neoris.user_flow_api.dto.NotificationDTO;
 import java.time.Instant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
