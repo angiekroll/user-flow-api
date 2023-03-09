@@ -3,7 +3,6 @@ package com.neoris.user_flow_api.mapper;
 import com.neoris.user_flow_api.domain.Customer;
 import com.neoris.user_flow_api.dto.CustomerDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 

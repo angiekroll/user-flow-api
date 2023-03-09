@@ -10,7 +10,6 @@ import com.neoris.user_flow_api.mapper.AccountMapper;
 import com.neoris.user_flow_api.repository.AccountRepository;
 import com.neoris.user_flow_api.repository.CustomerRepository;
 import com.neoris.user_flow_api.service.AccountService;
-import com.neoris.user_flow_api.service.CustomerService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
