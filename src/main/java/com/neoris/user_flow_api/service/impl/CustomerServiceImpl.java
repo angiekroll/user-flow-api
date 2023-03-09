@@ -49,52 +49,37 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional
   public CustomerDTO updateCustomer(CustomerDTO customerDTO, Long id) throws UserFlowException {
-
-    Customer customer = getCustomerById(id);
-    customer = customerRepository.save(validateFieldsToUpdate(customerDTO, customer));
-    log.info("{} customers updated", id);
-
-    return CustomerMapper.INSTANCE.customerToCustomerDTO(customer);
+    Customer customerFound = findById(id);
+    CustomerMapper.INSTANCE.updateCustomerFromCustomerDTO(customerDTO, customerFound);
+    try {
+      Customer updatedCustomer = customerRepository.save(customerFound);
+      log.info("{} Customer updated", id);
+      return CustomerMapper.INSTANCE.customerToCustomerDTO(updatedCustomer);
+    } catch (Exception e) {
+      log.debug("{} Error updating customer", id);
+      throw new UserFlowException(NotificationCode.ERROR_PROCESSING_DATA);
+    }
   }
 
   @Override
-  public Customer getCustomerById(Long id) throws UserFlowException {
+  public CustomerDTO getCustomerById(Long id) throws UserFlowException {
+    return CustomerMapper.INSTANCE.customerToCustomerDTO(findById(id));
+  }
+
+  @Override
+  public void deleteCustomer(Long id) throws UserFlowException {
+    Customer customer = findById(id);
+    customerRepository.delete(customer);
+    log.info("{} Customer deleted", id);
+  }
+
+  private Customer findById(Long id) throws UserFlowException {
     Customer customer = customerRepository.findById(id).orElse(null);
 
     if (customer == null) {
       log.error("Id no found.");
       throw new UserFlowException(NotificationCode.ID_NOT_FOUND);
     }
-    return customer;
-  }
-
-  @Override
-  public void deleteById(Long id) throws UserFlowException {
-    getCustomerById(id);
-    customerRepository.deleteById(id);
-  }
-
-  private Customer validateFieldsToUpdate(CustomerDTO customerDTO, Customer customer) {
-    if (customerDTO.getName() != null) {
-      customer.setName(customerDTO.getName());
-    }
-    if (customerDTO.getPassword() != null) {
-      customer.setPassword(customerDTO.getPassword());
-    }
-    if (customerDTO.getAddress() != null) {
-      customer.setAddress(customerDTO.getAddress());
-    }
-    if (customerDTO.getTelephone() != null) {
-      customer.setTelephone(customerDTO.getTelephone());
-    }
-    if (customerDTO.getGender() != null) {
-      customer.setGender(customerDTO.getGender());
-    }
-    if (customerDTO.getAge() != customer.getAge()) {
-      customer.setAge(customerDTO.getAge());
-    }
-    customer.setState(customerDTO.isState());
-
     return customer;
   }
 

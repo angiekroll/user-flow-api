@@ -1,7 +1,6 @@
 package com.neoris.user_flow_api.controller;
 
 import com.neoris.user_flow_api.constans.ResourceMapping;
-import com.neoris.user_flow_api.domain.Customer;
 import com.neoris.user_flow_api.dto.CustomerDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
 import com.neoris.user_flow_api.service.CustomerService;
@@ -44,13 +43,13 @@ public class CustomerController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) throws UserFlowException {
+  public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) throws UserFlowException {
     return ResponseEntity.ok(customerService.getCustomerById(id));
   }
 
   @DeleteMapping("/{id}")
   public void deleteCustomer(@PathVariable Long id) throws UserFlowException {
-    customerService.deleteById(id);
+    customerService.deleteCustomer(id);
   }
 
 

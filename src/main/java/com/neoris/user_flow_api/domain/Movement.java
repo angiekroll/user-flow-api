@@ -1,6 +1,5 @@
 package com.neoris.user_flow_api.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +26,6 @@ public class Movement {
 
   private LocalDate date;
 
-  @Column(unique = true)
   private String movementType;
 
   private BigDecimal amount;
