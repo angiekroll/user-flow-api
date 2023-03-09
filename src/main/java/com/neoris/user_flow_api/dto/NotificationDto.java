@@ -6,14 +6,14 @@ import lombok.Data;
 
 @Data
 @Builder
-public class NotificationDTO {
+public class NotificationDto {
 
   private Instant timestamp;
   private Integer status;
   private String error;
   private String message;
 
-  public NotificationDTO(Instant timestamp, Integer status, String error, String message) {
+  public NotificationDto(Instant timestamp, Integer status, String error, String message) {
     this.timestamp = timestamp;
     this.status = status;
     this.error = error;
