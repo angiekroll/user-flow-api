@@ -16,7 +16,6 @@ public interface CustomerMapper {
 
   Customer customerDTOtoCustomer(CustomerDTO customerDTO);
 
-  @Mapping(target = "id", ignore = true)
   void updateCustomerFromCustomerDTO(CustomerDTO customerDTO, @MappingTarget Customer customer);
 
 

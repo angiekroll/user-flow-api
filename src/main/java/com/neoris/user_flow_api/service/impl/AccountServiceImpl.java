@@ -11,6 +11,7 @@ import com.neoris.user_flow_api.repository.AccountRepository;
 import com.neoris.user_flow_api.repository.CustomerRepository;
 import com.neoris.user_flow_api.service.AccountService;
 import com.neoris.user_flow_api.service.CustomerService;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,16 +41,14 @@ public class AccountServiceImpl implements AccountService {
       throw new UserFlowException(NotificationCode.INVALID_ACCOUNT_TYPE);
     }
 
-    List<Account> accounts = accountDTOs.stream()
-        .map(AccountMapper.INSTANCE::accountDTOToAccount)
-        .toList();
-
-    for (Account account : accounts) {
-      Customer customer = customerRepository.findById(account.getCustomer().getId()).orElse(null);
+    List<Account> accountsToSaved = new ArrayList<>();
+    for (AccountDTO accountDTO : accountDTOs) {
+      Customer customer = customerRepository.findById(accountDTO.getCustomerId()).orElse(null);
 
       if (customer != null) {
-        customer.setId(account.getCustomer().getId());
+        Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
         account.setCustomer(customer);
+        accountsToSaved.add(account);
       } else {
         throw new UserFlowException(NotificationCode.CUSTOMER_NOT_FOUND);
       }
@@ -57,7 +56,7 @@ public class AccountServiceImpl implements AccountService {
     }
     try {
       log.debug("Saving accounts");
-      List<Account> savedAccounts = accountRepository.saveAll(accounts);
+      List<Account> savedAccounts = accountRepository.saveAll(accountsToSaved);
       log.info("{} Accounts created", savedAccounts.size());
 
       return savedAccounts.stream()

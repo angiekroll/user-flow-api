@@ -1,6 +1,5 @@
 package com.neoris.user_flow_api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -33,8 +32,5 @@ public class CustomerDTO {
   private int age;
 
   private Long identification;
-
-//  @JsonIgnore
-//  private Long customerId;
 
 }

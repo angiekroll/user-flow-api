@@ -7,10 +7,13 @@ import lombok.Data;
 public class AccountDTO {
 
   private Long accountNumber;
-  private String accountType;
-  private BigDecimal initialBalance;
-  private boolean state;
-  private Long customerId;
 
+  private String accountType;
+
+  private BigDecimal initialBalance;
+
+  private boolean state;
+
+  private Long customerId;
 
 }
