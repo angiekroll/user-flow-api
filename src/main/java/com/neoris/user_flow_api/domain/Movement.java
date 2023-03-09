@@ -27,7 +27,7 @@ public class Movement {
 
   private LocalDate date;
 
-  @Column(unique = true)
+//  @Column(unique = true)
   private String movementType;
 
   private BigDecimal amount;

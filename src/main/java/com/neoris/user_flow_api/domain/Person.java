@@ -23,7 +23,6 @@ public class Person {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-
   private Long personId;
 
   private String name;

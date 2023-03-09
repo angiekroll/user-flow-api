@@ -1,7 +1,11 @@
 package com.neoris.user_flow_api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +20,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "customerId")
 public class Customer extends Person {
+
+  @JsonIgnore
+  private Long id;
 
   private String password;
 

@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 public enum NotificationCode {
 
   ERROR_PROCESSING_DATA("Error processing data.", HttpStatus.INTERNAL_SERVER_ERROR),
-  ID_NOT_FOUND("Id no found.", HttpStatus.NOT_FOUND);
+  ID_NOT_FOUND("Id no found.", HttpStatus.NOT_FOUND),
+
+  CUSTOMER_NOT_FOUND("Customer not found.", HttpStatus.NOT_FOUND);
+
 
   private final HttpStatus httpStatus;
   private final String message;
