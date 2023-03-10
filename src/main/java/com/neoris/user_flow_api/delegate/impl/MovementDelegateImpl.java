@@ -59,7 +59,8 @@ public class MovementDelegateImpl implements MovementDelegate {
 
   @Override
   public MovementDTO getMovementById(Long id) throws UserFlowException {
-    return null;
+    Movement movement = movementService.findById(id);
+    return MovementMapper.INSTANCE.movementToMovementDTO(movement);
   }
 
 }

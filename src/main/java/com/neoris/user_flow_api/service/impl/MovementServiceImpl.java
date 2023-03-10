@@ -2,9 +2,7 @@ package com.neoris.user_flow_api.service.impl;
 
 import com.neoris.user_flow_api.constans.NotificationCode;
 import com.neoris.user_flow_api.domain.Movement;
-import com.neoris.user_flow_api.dto.MovementDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
-import com.neoris.user_flow_api.repository.AccountRepository;
 import com.neoris.user_flow_api.repository.MovementRepository;
 import com.neoris.user_flow_api.service.MovementService;
 import java.time.LocalDate;
@@ -16,12 +14,9 @@ import org.springframework.stereotype.Service;
 public class MovementServiceImpl implements MovementService {
 
   private final MovementRepository movementRepository;
-  private final AccountRepository accountRepository;
 
-  public MovementServiceImpl(MovementRepository movementRepository,
-      AccountRepository accountRepository) {
+  public MovementServiceImpl(MovementRepository movementRepository) {
     this.movementRepository = movementRepository;
-    this.accountRepository = accountRepository;
   }
 
 
@@ -38,19 +33,14 @@ public class MovementServiceImpl implements MovementService {
   }
 
   @Override
-  public MovementDTO update(MovementDTO movementDTO, Long id) throws UserFlowException {
-    return null;
+  public Movement findById(Long id) throws UserFlowException {
+    Movement movement = movementRepository.findById(id).orElse(null);
+
+    if (movement == null) {
+      log.error("Id no found.");
+      throw new UserFlowException(NotificationCode.ID_NOT_FOUND);
+    }
+    return movement;
   }
-
-  @Override
-  public MovementDTO getMovementById(Long id) throws UserFlowException {
-    return null;
-  }
-
-  @Override
-  public void delete(Long id) throws UserFlowException {
-
-  }
-
 
 }
