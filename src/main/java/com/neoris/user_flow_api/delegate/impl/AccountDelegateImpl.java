@@ -1,7 +1,5 @@
 package com.neoris.user_flow_api.delegate.impl;
 
-import com.neoris.user_flow_api.constans.AccountType;
-import com.neoris.user_flow_api.constans.NotificationCode;
 import com.neoris.user_flow_api.delegate.AccountDelegate;
 import com.neoris.user_flow_api.domain.Account;
 import com.neoris.user_flow_api.domain.Customer;
@@ -10,6 +8,7 @@ import com.neoris.user_flow_api.exception.UserFlowException;
 import com.neoris.user_flow_api.mapper.AccountMapper;
 import com.neoris.user_flow_api.service.AccountService;
 import com.neoris.user_flow_api.service.CustomerService;
+import com.neoris.user_flow_api.utils.ValidationUtils;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +31,12 @@ public class AccountDelegateImpl implements AccountDelegate {
   @Override
   @Transactional
   public List<AccountDTO> createAccount(List<AccountDTO> accountDTOs) throws UserFlowException {
-
-    validateAccountType(accountDTOs);
-
     List<Account> accountsToSaved = new ArrayList<>();
+
     for (AccountDTO accountDTO : accountDTOs) {
+      ValidationUtils.validateAccountType(accountDTO);
+      ValidationUtils.validateValue(accountDTO.getBalance());
+      ValidationUtils.validateAccountType(accountDTO);
       Customer customer = customerService.findById(accountDTO.getCustomerId());
 
       Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
@@ -55,9 +55,9 @@ public class AccountDelegateImpl implements AccountDelegate {
   @Override
   @Transactional
   public AccountDTO updateAccount(AccountDTO accountDTO, Long id) throws UserFlowException {
-    List<AccountDTO> AccountDTOs = new ArrayList<>();
-    AccountDTOs.add(accountDTO);
-    validateAccountType(AccountDTOs);
+    ValidationUtils.validateAccountType(accountDTO);
+    ValidationUtils.validateValue(accountDTO.getBalance());
+
     Account accountFound = accountService.findById(id);
 
     AccountMapper.INSTANCE.updateAccountFromAccountDTO(accountDTO, accountFound);
@@ -78,15 +78,6 @@ public class AccountDelegateImpl implements AccountDelegate {
     Account account = accountService.findById(id);
     accountService.delete(account);
     log.info("{} account deleted", id);
-  }
-
-  private void validateAccountType(List<AccountDTO> accountDTOs) throws UserFlowException {
-    if (accountDTOs.stream().anyMatch(
-        accountDTO -> !accountDTO.getAccountType().equalsIgnoreCase(AccountType.CORRIENTE.name())
-            && !accountDTO.getAccountType()
-            .equalsIgnoreCase(AccountType.AHORRO.name()))) {
-      throw new UserFlowException(NotificationCode.INVALID_ACCOUNT_TYPE);
-    }
   }
 
 }

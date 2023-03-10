@@ -10,7 +10,7 @@ public class AccountDTO {
 
   private String accountType;
 
-  private BigDecimal initialBalance;
+  private BigDecimal balance;
 
   private boolean state;
 

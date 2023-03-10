@@ -34,6 +34,8 @@ public class Movement {
 
   private BigDecimal balance;
 
+  private BigDecimal initialBalance;
+
   @ManyToOne
   @JoinColumn(name = "accountNumber", referencedColumnName = "accountNumber")
   private Account account;

@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
   public Account findByAccountNumberAndStateTrue(Long accountNumber) throws UserFlowException {
     Account account = accountRepository.findByAccountNumberAndStateTrue(accountNumber).orElse(null);
     if (account == null) {
-      log.error("Id no found.");
+      log.error("There is no active account");
       throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
     }
     return account;

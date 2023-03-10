@@ -2,6 +2,8 @@ package com.neoris.user_flow_api.constans;
 
 public class ResourceMapping {
 
+    private ResourceMapping(){}
+
     public static final String CUSTOMERS = "/customers";
     public static final String ACCOUNTS = "/accounts";
 

@@ -24,7 +24,7 @@ public class Account {
   @Id
   private Long accountNumber;
   private String accountType;
-  private BigDecimal initialBalance;
+  private BigDecimal balance;
   private boolean state;
   @ManyToOne
   @JoinColumn(name = "customerId")
