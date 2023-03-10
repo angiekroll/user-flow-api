@@ -7,7 +7,11 @@ public enum NotificationCode {
   ERROR_PROCESSING_DATA("Error processing data.", HttpStatus.INTERNAL_SERVER_ERROR),
   ID_NOT_FOUND("Id no found.", HttpStatus.NOT_FOUND),
   CUSTOMER_NOT_FOUND("Customer not found.", HttpStatus.NOT_FOUND),
-  INVALID_ACCOUNT_TYPE("Invalid account type", HttpStatus.BAD_REQUEST);
+  INVALID_ACCOUNT_TYPE("Invalid account type", HttpStatus.BAD_REQUEST),
+
+  INVALID_MOVEMENT_TYPE("Invalid movement type", HttpStatus.BAD_REQUEST),
+
+  ACCOUNT_NOT_FOUND("Account not found.", HttpStatus.NOT_FOUND);
 
 
   private final HttpStatus httpStatus;

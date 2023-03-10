@@ -35,8 +35,8 @@ public class AccountServiceImpl implements AccountService {
   public List<AccountDTO> createAccount(List<AccountDTO> accountDTOs) throws UserFlowException {
 
     if (accountDTOs.stream().anyMatch(
-        accountDTO -> !accountDTO.getAccountType().equals(AccountType.CORRIENTE.name()) && !accountDTO.getAccountType()
-            .equals(AccountType.AHORRO.name()))) {
+        accountDTO -> !accountDTO.getAccountType().equalsIgnoreCase(AccountType.CORRIENTE.name()) && !accountDTO.getAccountType()
+            .equalsIgnoreCase(AccountType.AHORRO.name()))) {
       throw new UserFlowException(NotificationCode.INVALID_ACCOUNT_TYPE);
     }
 
