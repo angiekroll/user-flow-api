@@ -47,12 +47,12 @@ public class MovementDelegateImpl implements MovementDelegate {
 
     Movement movement = MovementMapper.INSTANCE.movementDTOtoMovement(movementDTO);
 
+    movement.setInitialBalance(account.getBalance());
     account.setBalance(balance);
     movement.setAccount(account);
-    movement.setInitialBalance(account.getBalance());
     movement.setBalance(balance);
-    movementService.save(movement);
     accountService.save(account);
+    movementService.save(movement);
 
     return MovementMapper.INSTANCE.movementToMovementDTO(movement);
   }
