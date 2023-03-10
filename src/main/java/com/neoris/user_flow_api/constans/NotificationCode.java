@@ -11,7 +11,9 @@ public enum NotificationCode {
 
   INVALID_MOVEMENT_TYPE("Invalid movement type", HttpStatus.BAD_REQUEST),
 
-  ACCOUNT_NOT_FOUND("Account not found.", HttpStatus.NOT_FOUND);
+  ACCOUNT_NOT_FOUND("Account not found.", HttpStatus.NOT_FOUND),
+
+  ERROR_SAVING_DATA("Error saving data.", HttpStatus.INTERNAL_SERVER_ERROR);
 
 
   private final HttpStatus httpStatus;

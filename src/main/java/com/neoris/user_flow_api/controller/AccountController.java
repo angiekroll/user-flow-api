@@ -1,9 +1,9 @@
 package com.neoris.user_flow_api.controller;
 
 import com.neoris.user_flow_api.constans.ResourceMapping;
+import com.neoris.user_flow_api.delegate.AccountDelegate;
 import com.neoris.user_flow_api.dto.AccountDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
-import com.neoris.user_flow_api.service.AccountService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(ResourceMapping.ACCOUNTS)
 public class AccountController {
+  private final AccountDelegate accountDelegate;
 
-  private final AccountService accountService;
-
-  public AccountController(AccountService accountService) {
-    this.accountService = accountService;
+  public AccountController(AccountDelegate accountDelegate) {
+    this.accountDelegate = accountDelegate;
   }
 
 
@@ -31,26 +30,24 @@ public class AccountController {
   public ResponseEntity<List<AccountDTO>> createAccount(
       @Valid @RequestBody List<AccountDTO> accountDTO) throws UserFlowException {
 
-    return ResponseEntity.ok(accountService.createAccount(accountDTO));
-
+    return ResponseEntity.ok(accountDelegate.createAccount(accountDTO));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<AccountDTO> updateAccount(@PathVariable Long id,
       @RequestBody AccountDTO accountDTO) throws UserFlowException {
 
-    return ResponseEntity.ok(accountService.updateAccount(accountDTO, id));
-
+    return ResponseEntity.ok(accountDelegate.updateAccount(accountDTO, id));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id) throws UserFlowException {
-    return ResponseEntity.ok(accountService.getAccountById(id));
+    return ResponseEntity.ok(accountDelegate.getAccountById(id));
   }
 
   @DeleteMapping("/{id}")
   public void deleteAccount(@PathVariable Long id) throws UserFlowException {
-    accountService.deleteAccount(id);
+    accountDelegate.deleteAccount(id);
   }
 
 }

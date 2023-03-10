@@ -1,13 +1,14 @@
 package com.neoris.user_flow_api.service;
 
+import com.neoris.user_flow_api.domain.Movement;
 import com.neoris.user_flow_api.dto.MovementDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
 
 public interface MovementService {
+  MovementDTO update(MovementDTO movementDTO, Long id) throws UserFlowException;
+  MovementDTO getMovementById(Long id) throws UserFlowException;
+  void delete(Long id) throws UserFlowException;
 
-  MovementDTO createMovement(MovementDTO movementDTO) throws UserFlowException;
-  MovementDTO updateMovement(MovementDTO movementDTO, Long id) throws UserFlowException;
-  MovementDTO getMovementByAccountNumber(Long id) throws UserFlowException;
-  void deleteMovement(Long id) throws UserFlowException;
+  Movement save(Movement movement) throws UserFlowException;
 
 }

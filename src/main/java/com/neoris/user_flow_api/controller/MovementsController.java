@@ -1,9 +1,9 @@
 package com.neoris.user_flow_api.controller;
 
 import com.neoris.user_flow_api.constans.ResourceMapping;
+import com.neoris.user_flow_api.delegate.MovementDelegate;
 import com.neoris.user_flow_api.dto.MovementDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
-import com.neoris.user_flow_api.service.MovementService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(ResourceMapping.MOVEMENTS)
 public class MovementsController {
 
-  private final MovementService movementService;
+  private final MovementDelegate movementDelegate;
 
-  public MovementsController(MovementService movementService) {
-    this.movementService = movementService;
+  public MovementsController(MovementDelegate movementDelegate) {
+    this.movementDelegate = movementDelegate;
   }
 
   @PostMapping
   public ResponseEntity<MovementDTO> createMovement(
       @Valid @RequestBody MovementDTO movementDTO) throws UserFlowException {
 
-    return ResponseEntity.ok(movementService.createMovement(movementDTO));
+    return ResponseEntity.ok(movementDelegate.createMovement(movementDTO));
 
   }
 
@@ -37,18 +37,19 @@ public class MovementsController {
   public ResponseEntity<MovementDTO> updateAccount(@PathVariable Long id,
       @RequestBody MovementDTO movementDTO) throws UserFlowException {
 
-    return ResponseEntity.ok(movementService.updateMovement(movementDTO, id));
+    return ResponseEntity.ok(movementDelegate.updateMovement(movementDTO, id));
 
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<MovementDTO> getAccountById(@PathVariable Long id) throws UserFlowException {
-    return ResponseEntity.ok(movementService.getMovementByAccountNumber(id));
+  public ResponseEntity<MovementDTO> getAccountById(@PathVariable Long id)
+      throws UserFlowException {
+    return ResponseEntity.ok(movementDelegate.getMovementById(id));
   }
 
   @DeleteMapping("/{id}")
   public void deleteAccount(@PathVariable Long id) throws UserFlowException {
-    movementService.deleteMovement(id);
+    movementDelegate.deleteMovement(id);
   }
 
 }
