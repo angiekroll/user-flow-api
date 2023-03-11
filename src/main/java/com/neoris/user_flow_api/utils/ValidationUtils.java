@@ -12,7 +12,7 @@ public class ValidationUtils {
 
   public static void validateMovementType(MovementDTO movementDTO) throws UserFlowException {
     try {
-      MovementType.valueOf(movementDTO.getMovementType());
+      MovementType.valueOf(movementDTO.getMovementType().toUpperCase());
     } catch (IllegalArgumentException ex) {
       throw new UserFlowException(NotificationCode.INVALID_MOVEMENT_TYPE);
     }
@@ -26,7 +26,7 @@ public class ValidationUtils {
 
   public static void validateAccountType(AccountDTO accountDTO) throws UserFlowException {
     try {
-      AccountType.valueOf(accountDTO.getAccountType());
+      AccountType.valueOf(accountDTO.getAccountType().toUpperCase());
     } catch (IllegalArgumentException ex) {
       throw new UserFlowException(NotificationCode.INVALID_MOVEMENT_TYPE);
     }
