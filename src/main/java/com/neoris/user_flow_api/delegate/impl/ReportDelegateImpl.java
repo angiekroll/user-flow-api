@@ -1,5 +1,6 @@
 package com.neoris.user_flow_api.delegate.impl;
 
+import com.neoris.user_flow_api.constans.MovementType;
 import com.neoris.user_flow_api.delegate.ReportDelegate;
 import com.neoris.user_flow_api.domain.Customer;
 import com.neoris.user_flow_api.dto.CustomerMovementDTO;
@@ -31,25 +32,32 @@ public class ReportDelegateImpl implements ReportDelegate {
       Long customerId,
       LocalDate startDate,
       LocalDate endDate) throws UserFlowException {
+
     Customer customer = customerService.findById(customerId);
 
-    List<Object[]> result = movementService.getByCustomerIdAndDateRange(customerId,
-        startDate, endDate);
-    List<CustomerMovementDTO> customerMovementDTOs = new ArrayList<>();
+    List<Object[]> result = movementService.getByCustomerIdAndDateRange(customerId, startDate, endDate);
 
-    for (Object[] row : result) {
-      CustomerMovementDTO customerMovementDTO = new CustomerMovementDTO();
-      customerMovementDTO.setDate(((Date) row[0]).toLocalDate());
-      customerMovementDTO.setCustomer(customer.getName());
-      customerMovementDTO.setAccountNumber((Long) row[2]);
-      customerMovementDTO.setAccountType((String) row[3]);
-      customerMovementDTO.setInitialBalance((BigDecimal) row[4]);
-      customerMovementDTO.setState((Boolean) row[5]);
-      customerMovementDTO.setAmount((BigDecimal) row[6]);
-      customerMovementDTO.setBalance((BigDecimal) row[7]);
+    List<CustomerMovementDTO> customerMovementDTOs = new ArrayList<>();
+    result.forEach(row -> {
+      CustomerMovementDTO customerMovementDTO = CustomerMovementDTO.builder()
+          .date(((Date) row[0]).toLocalDate())
+          .customer(customer.getName())
+          .accountNumber((Long) row[2])
+          .accountType((String) row[3])
+          .initialBalance((BigDecimal) row[4])
+          .state((Boolean) row[5])
+          .balance((BigDecimal) row[7])
+          .build();
+
+      String movementType = (String) row[8];
+      BigDecimal amount = (BigDecimal) row[6];
+
+      customerMovementDTO.setAmount(
+          movementType.equals(MovementType.DEBIT.name()) ? amount.negate() : amount);
 
       customerMovementDTOs.add(customerMovementDTO);
-    }
+
+    });
 
     return customerMovementDTOs;
   }

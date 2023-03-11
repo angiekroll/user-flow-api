@@ -13,6 +13,7 @@ public interface AccountMapper {
   AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
   AccountDTO accountToAccountDTO(Account account);
 
+  @Mapping(target = "accountType", expression = "java(accountDTO.getAccountType().toUpperCase())")
   Account accountDTOToAccount(AccountDTO accountDTO);
 
   @Mapping(target = "accountNumber", ignore = true)
