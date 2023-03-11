@@ -6,6 +6,7 @@ import com.neoris.user_flow_api.exception.UserFlowException;
 import com.neoris.user_flow_api.repository.MovementRepository;
 import com.neoris.user_flow_api.service.MovementService;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,20 @@ public class MovementServiceImpl implements MovementService {
       throw new UserFlowException(NotificationCode.ID_NOT_FOUND);
     }
     return movement;
+  }
+
+  public List<Object[]> getByCustomerIdAndDateRange(Long customerId,
+      LocalDate startDate,
+      LocalDate endDate)
+      throws UserFlowException {
+    try {
+      log.debug("Getting data");
+      return movementRepository.findByCustomerIdAndDataRange(customerId, startDate, endDate);
+
+    } catch (Exception e) {
+      log.error("Error getting the data.");
+      throw new UserFlowException(NotificationCode.ERROR_GETTING_DATA, e);
+    }
   }
 
 }

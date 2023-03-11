@@ -23,8 +23,8 @@ public class CustomerServiceImpl implements CustomerService {
     Customer customer = customerRepository.findById(id).orElse(null);
 
     if (customer == null) {
-      log.error("Id no found.");
-      throw new UserFlowException(NotificationCode.ID_NOT_FOUND);
+      log.error("Customer no found.");
+      throw new UserFlowException(NotificationCode.CUSTOMER_NOT_FOUND);
     }
     return customer;
   }

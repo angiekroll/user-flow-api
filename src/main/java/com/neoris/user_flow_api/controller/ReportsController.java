@@ -31,10 +31,10 @@ public class ReportsController {
       @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
   )
       throws UserFlowException {
-    List<CustomerMovementDTO> customerMovementDTO = reportDelegate.getMovementsByCustomerIdAndDateRange(
+    List<CustomerMovementDTO> customerMovementDTOs = reportDelegate.getMovementsByCustomerIdAndDateRange(
         customerId, startDate, endDate);
 
-    return ResponseEntity.ok(customerMovementDTO);
+    return ResponseEntity.ok(customerMovementDTOs);
   }
 
 }

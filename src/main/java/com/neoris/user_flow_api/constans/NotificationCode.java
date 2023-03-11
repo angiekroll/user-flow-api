@@ -12,7 +12,8 @@ public enum NotificationCode {
   ACCOUNT_NOT_FOUND("Account not found.", HttpStatus.NOT_FOUND),
   ERROR_SAVING_DATA("Error saving data.", HttpStatus.INTERNAL_SERVER_ERROR),
   BALANCE_NOT_AVAILABLE("Balance not available.", HttpStatus.BAD_REQUEST),
-  INVALID_AMOUNT("Invalid amount.", HttpStatus.BAD_REQUEST);
+  INVALID_AMOUNT("Invalid amount.", HttpStatus.BAD_REQUEST),
+  ERROR_GETTING_DATA("Error getting data.", HttpStatus.INTERNAL_SERVER_ERROR);
 
 
   private final HttpStatus httpStatus;
