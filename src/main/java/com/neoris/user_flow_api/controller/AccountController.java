@@ -28,9 +28,9 @@ public class AccountController {
 
   @PostMapping
   public ResponseEntity<List<AccountDTO>> createAccount(
-      @Valid @RequestBody List<AccountDTO> accountDTO) throws UserFlowException {
+      @Valid @RequestBody List<AccountDTO> accountDTOs) throws UserFlowException {
 
-    return ResponseEntity.ok(accountDelegate.createAccount(accountDTO));
+    return ResponseEntity.ok(accountDelegate.createAccount(accountDTOs));
   }
 
   @PutMapping("/{id}")
