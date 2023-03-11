@@ -1,13 +1,18 @@
 package com.neoris.user_flow_api.service;
 
-import com.neoris.user_flow_api.dto.MovementDTO;
+import com.neoris.user_flow_api.domain.Movement;
 import com.neoris.user_flow_api.exception.UserFlowException;
+import java.time.LocalDate;
+import java.util.List;
 
 public interface MovementService {
 
-  MovementDTO createMovement(MovementDTO movementDTO) throws UserFlowException;
-  MovementDTO updateMovement(MovementDTO movementDTO, Long id) throws UserFlowException;
-  MovementDTO getMovementByAccountNumber(Long id) throws UserFlowException;
-  void deleteMovement(Long id) throws UserFlowException;
+  Movement findById(Long id) throws UserFlowException;
+
+  Movement save(Movement movement) throws UserFlowException;
+
+  List<Object[]> getByCustomerIdAndDateRange(Long customerId, LocalDate startDate,
+      LocalDate endDate)
+      throws UserFlowException;
 
 }
