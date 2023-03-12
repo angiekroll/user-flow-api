@@ -36,7 +36,6 @@ public class AccountDelegateImpl implements AccountDelegate {
     for (AccountDTO accountDTO : accountDTOs) {
       ValidationUtils.validateAccountType(accountDTO);
       ValidationUtils.validateValue(accountDTO.getBalance());
-      ValidationUtils.validateAccountType(accountDTO);
       Customer customer = customerService.findById(accountDTO.getCustomerId());
 
       Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);

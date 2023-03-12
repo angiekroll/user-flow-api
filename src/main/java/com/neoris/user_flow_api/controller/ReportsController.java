@@ -1,9 +1,11 @@
 package com.neoris.user_flow_api.controller;
 
+import com.neoris.user_flow_api.constans.NotificationCode;
 import com.neoris.user_flow_api.constans.ResourceMapping;
 import com.neoris.user_flow_api.delegate.ReportDelegate;
 import com.neoris.user_flow_api.dto.CustomerMovementDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
+import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,10 +29,11 @@ public class ReportsController {
   @GetMapping("/{customerId}")
   public ResponseEntity<List<CustomerMovementDTO>> getMovementsByCustomerIdAndDateRange(
       @PathVariable Long customerId,
-      @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-      @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+      @RequestParam(name = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotBlank LocalDate startDate,
+      @RequestParam(name = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @NotBlank LocalDate endDate
   )
       throws UserFlowException {
+
     List<CustomerMovementDTO> customerMovementDTOs = reportDelegate.getMovementsByCustomerIdAndDateRange(
         customerId, startDate, endDate);
 

@@ -32,7 +32,7 @@ public class MovementsController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<MovementDTO> getAccountById(@PathVariable Long id)
+  public ResponseEntity<MovementDTO> getMovementById(@PathVariable Long id)
       throws UserFlowException {
     return ResponseEntity.ok(movementDelegate.getMovementById(id));
   }

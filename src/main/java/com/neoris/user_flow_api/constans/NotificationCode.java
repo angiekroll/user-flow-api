@@ -13,7 +13,8 @@ public enum NotificationCode {
   ERROR_SAVING_DATA("Error saving data.", HttpStatus.INTERNAL_SERVER_ERROR),
   BALANCE_NOT_AVAILABLE("Balance not available.", HttpStatus.BAD_REQUEST),
   INVALID_AMOUNT("Invalid amount.", HttpStatus.BAD_REQUEST),
-  ERROR_GETTING_DATA("Error getting data.", HttpStatus.INTERNAL_SERVER_ERROR);
+  ERROR_GETTING_DATA("Error getting data.", HttpStatus.INTERNAL_SERVER_ERROR),
+  MISSING_REQUIRED_PARAMS("Missing required parameters", HttpStatus.BAD_REQUEST);
 
 
   private final HttpStatus httpStatus;
