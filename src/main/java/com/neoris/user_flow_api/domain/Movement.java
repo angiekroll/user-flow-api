@@ -1,10 +1,11 @@
 package com.neoris.user_flow_api.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -27,12 +28,15 @@ public class Movement {
 
   private LocalDate date;
 
-  @Column(unique = true)
   private String movementType;
 
   private BigDecimal amount;
 
   private BigDecimal balance;
 
+  private BigDecimal initialBalance;
 
+  @ManyToOne
+  @JoinColumn(name = "accountNumber", referencedColumnName = "accountNumber")
+  private Account account;
 }

@@ -1,10 +1,9 @@
 package com.neoris.user_flow_api.controller;
 
 import com.neoris.user_flow_api.constans.ResourceMapping;
-import com.neoris.user_flow_api.domain.Customer;
+import com.neoris.user_flow_api.delegate.CustomerDelegate;
 import com.neoris.user_flow_api.dto.CustomerDTO;
 import com.neoris.user_flow_api.exception.UserFlowException;
-import com.neoris.user_flow_api.service.CustomerService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -20,38 +19,35 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(ResourceMapping.CUSTOMERS)
 public class CustomerController {
+  private final CustomerDelegate customerDelegate;
 
-  private final CustomerService customerService;
-
-  public CustomerController(CustomerService customerService) {
-    this.customerService = customerService;
+  public CustomerController(CustomerDelegate customerDelegate) {
+    this.customerDelegate = customerDelegate;
   }
+
 
   @PostMapping
   public ResponseEntity<List<CustomerDTO>> createCustomer(
-      @Valid @RequestBody List<CustomerDTO> customersDTO) throws UserFlowException {
+      @Valid @RequestBody List<CustomerDTO> customerDTOs) throws UserFlowException {
 
-    return ResponseEntity.ok(customerService.createCustomer(customersDTO));
-
+    return ResponseEntity.ok(customerDelegate.createCustomer(customerDTOs));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id,
       @RequestBody CustomerDTO customersDTO) throws UserFlowException {
 
-    return ResponseEntity.ok(customerService.updateCustomer(customersDTO, id));
-
+    return ResponseEntity.ok(customerDelegate.updateCustomer(customersDTO, id));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) throws UserFlowException {
-    return ResponseEntity.ok(customerService.getCustomerById(id));
+  public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) throws UserFlowException {
+    return ResponseEntity.ok(customerDelegate.getCustomerById(id));
   }
 
   @DeleteMapping("/{id}")
   public void deleteCustomer(@PathVariable Long id) throws UserFlowException {
-    customerService.deleteById(id);
+    customerDelegate.deleteCustomer(id);
   }
-
 
 }
