@@ -25,13 +25,7 @@ public class AccountServiceImpl implements AccountService {
   }
 
   public Account findById(Long id) throws UserFlowException {
-    Account account = accountRepository.findById(id).orElse(null);
-
-    if (account == null) {
-      log.error("Id no found.");
-      throw new UserFlowException(NotificationCode.ID_NOT_FOUND);
-    }
-    return account;
+    return accountRepository.findById(id).orElse(null);
   }
 
   @Override
