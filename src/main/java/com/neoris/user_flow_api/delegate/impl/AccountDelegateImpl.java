@@ -64,7 +64,6 @@ public class AccountDelegateImpl implements AccountDelegate {
     Account accountFound = accountService.findById(id);
 
     if (accountFound == null) {
-      log.error("{} Account no found.", id);
       throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
     }
 
@@ -79,7 +78,6 @@ public class AccountDelegateImpl implements AccountDelegate {
   public AccountDTO getAccountById(Long accountNumber) throws UserFlowException {
     Account account = accountService.findById(accountNumber);
     if (account == null) {
-      log.error("{} Account no found.", accountNumber);
       throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
     }
     return AccountMapper.INSTANCE.accountToAccountDTO(account);
@@ -89,7 +87,6 @@ public class AccountDelegateImpl implements AccountDelegate {
   public void deleteAccount(Long id) throws UserFlowException {
     Account account = accountService.findById(id);
     if (account == null) {
-      log.error("{} Account no found.", id);
       throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
     }
     accountService.delete(account);
