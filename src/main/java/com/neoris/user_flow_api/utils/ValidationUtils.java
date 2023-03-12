@@ -19,7 +19,7 @@ public class ValidationUtils {
   }
 
   public static void validateValue(BigDecimal amount) throws UserFlowException {
-    if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+    if (amount.compareTo(BigDecimal.ZERO) < 0) {
       throw new UserFlowException(NotificationCode.INVALID_AMOUNT);
     }
   }

@@ -32,7 +32,10 @@ public class MovementDelegateImpl implements MovementDelegate {
   @Transactional
   public MovementDTO createMovement(MovementDTO movementDTO) throws UserFlowException {
     ValidationUtils.validateMovementType(movementDTO);
-    ValidationUtils.validateValue(movementDTO.getAmount());
+
+    if (movementDTO.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+      throw new UserFlowException(NotificationCode.INVALID_AMOUNT);
+    }
 
     Account account = accountService.findByAccountNumberAndStateTrue(movementDTO.getAccountNumber());
 
