@@ -1,5 +1,6 @@
 package com.neoris.user_flow_api.delegate.impl;
 
+import com.neoris.user_flow_api.constans.NotificationCode;
 import com.neoris.user_flow_api.delegate.AccountDelegate;
 import com.neoris.user_flow_api.domain.Account;
 import com.neoris.user_flow_api.domain.Customer;
@@ -37,7 +38,10 @@ public class AccountDelegateImpl implements AccountDelegate {
       ValidationUtils.validateAccountType(accountDTO);
       ValidationUtils.validateValue(accountDTO.getBalance());
       Customer customer = customerService.findById(accountDTO.getCustomerId());
-
+      Account accountFound = accountService.findById(accountDTO.getAccountNumber());
+      if (accountFound != null) {
+        throw new UserFlowException(NotificationCode.ACCOUNT_ALREADY_EXISTS);
+      }
       Account account = AccountMapper.INSTANCE.accountDTOToAccount(accountDTO);
       account.setCustomer(customer);
       accountsToSaved.add(account);
@@ -59,6 +63,11 @@ public class AccountDelegateImpl implements AccountDelegate {
 
     Account accountFound = accountService.findById(id);
 
+    if (accountFound == null) {
+      log.error("{} Account no found.", id);
+      throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
+    }
+
     AccountMapper.INSTANCE.updateAccountFromAccountDTO(accountDTO, accountFound);
     Account updatedAccount = accountService.save(accountFound);
     log.info("{} account updated", id);
@@ -69,12 +78,20 @@ public class AccountDelegateImpl implements AccountDelegate {
   @Override
   public AccountDTO getAccountById(Long accountNumber) throws UserFlowException {
     Account account = accountService.findById(accountNumber);
+    if (account == null) {
+      log.error("{} Account no found.", accountNumber);
+      throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
+    }
     return AccountMapper.INSTANCE.accountToAccountDTO(account);
   }
 
   @Override
   public void deleteAccount(Long id) throws UserFlowException {
     Account account = accountService.findById(id);
+    if (account == null) {
+      log.error("{} Account no found.", id);
+      throw new UserFlowException(NotificationCode.ACCOUNT_NOT_FOUND);
+    }
     accountService.delete(account);
     log.info("{} account deleted", id);
   }

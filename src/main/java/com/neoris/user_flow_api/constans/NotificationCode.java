@@ -14,7 +14,8 @@ public enum NotificationCode {
   BALANCE_NOT_AVAILABLE("Balance not available.", HttpStatus.BAD_REQUEST),
   INVALID_AMOUNT("Invalid amount.", HttpStatus.BAD_REQUEST),
   ERROR_GETTING_DATA("Error getting data.", HttpStatus.INTERNAL_SERVER_ERROR),
-  MISSING_REQUIRED_PARAMS("Missing required parameters", HttpStatus.BAD_REQUEST);
+  MISSING_REQUIRED_PARAMS("Missing required parameters", HttpStatus.BAD_REQUEST),
+  ACCOUNT_ALREADY_EXISTS("Account already exists", HttpStatus.BAD_REQUEST);
 
 
   private final HttpStatus httpStatus;
